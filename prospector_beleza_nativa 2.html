@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospector Beleza Nativa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --rosa: #C8758A; --rosa-claro: #F2D9DF; --rosa-escuro: #9E4D63;
+    --creme: #FDF7F4; --cinza: #6B6B6B; --texto: #1A1A1A;
+    --borda: #E8D5D9; --verde: #4CAF7D;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--creme); color: var(--texto); min-height: 100vh; }
+  header { background: linear-gradient(135deg, var(--rosa-escuro), var(--rosa)); color: white; padding: 28px 40px; display: flex; align-items: center; gap: 16px; }
+  header .logo-icon { font-size: 32px; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+  header p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  .card { background: white; border-radius: 16px; padding: 28px; border: 1px solid var(--borda); margin-bottom: 24px; box-shadow: 0 2px 12px rgba(200,117,138,0.07); }
+  .card h2 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--rosa-escuro); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--cinza); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  input, textarea, select { width: 100%; padding: 12px 16px; border: 1.5px solid var(--borda); border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--texto); background: var(--creme); transition: border 0.2s; margin-bottom: 16px; }
+  input:focus, textarea:focus { outline: none; border-color: var(--rosa); background: white; }
+  textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .btn { background: linear-gradient(135deg, var(--rosa-escuro), var(--rosa)); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.2s, transform 0.1s; font-family: 'Inter', sans-serif; }
+  .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-enviar { background: linear-gradient(135deg, #2d7a4f, var(--verde)); margin-top: 8px; }
+  .status-bar { background: white; border: 1.5px solid var(--borda); border-radius: 10px; padding: 14px 16px; font-size: 13px; color: var(--cinza); margin-top: 16px; min-height: 48px; display: flex; align-items: center; gap: 10px; }
+  .status-bar.ativo { color: var(--rosa-escuro); border-color: var(--rosa); }
+  .status-bar.sucesso { color: #2d7a4f; border-color: var(--verde); background: #f0fff6; }
+  .status-bar.erro { color: #c0392b; border-color: #e74c3c; background: #fff5f5; }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--rosa-claro); border-top-color: var(--rosa); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .lead-item { border: 1.5px solid var(--borda); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; background: white; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .lead-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .lead-info p { font-size: 12px; color: var(--cinza); }
+  .lead-tel { font-size: 13px; font-weight: 600; color: var(--rosa-escuro); white-space: nowrap; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+  .badge-ok { background: #e8f8f0; color: #2d7a4f; }
+  .badge-sem { background: #fef5e7; color: #c67c00; }
+  .badge-enviado { background: #e8f0ff; color: #1a56cc; }
+  .badge-erro { background: #fff0f0; color: #c0392b; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+  .stat { background: var(--rosa-claro); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat .num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--rosa-escuro); }
+  .stat .label { font-size: 11px; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .preview-msg { background: #f0fff6; border: 1.5px solid #b2dfc4; border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.7; color: #1a3d2b; margin-top: 8px; white-space: pre-wrap; }
+  .divider { height: 1px; background: var(--borda); margin: 20px 0; }
+  #secao-envio { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo-icon">🌸</div>
+  <div>
+    <h1>Prospector Beleza Nativa</h1>
+    <p>Busque lojas femininas e envie propostas de parceria pelo WhatsApp</p>
+  </div>
+</header>
+<div class="container">
+  <div class="card">
+    <h2>⚙️ Configuração da Busca</h2>
+    <div class="row">
+      <div>
+        <label>Chave da API Google Maps</label>
+        <input type="password" id="googleKey" value="AIzaSyDdt2ziZzcArpiRs_6Z339_FVZIG507-Uw">
+      </div>
+      <div>
+        <label>Token Wasender</label>
+        <input type="password" id="wasenderToken" value="6016|GrjXv3Hbq8S9PFYlvApBwZi3nBrjqQsWFhWxbF3oe023ecdf">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Cidade / Região</label>
+        <input type="text" id="cidade" value="Americana, SP, Brasil">
+      </div>
+      <div>
+        <label>Quantidade de lojas</label>
+        <select id="quantidade">
+          <option value="10">10 lojas</option>
+          <option value="20" selected>20 lojas</option>
+          <option value="60">60 lojas</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="buscarLeads()">🔍 Buscar Lojas de Moda Feminina</button>
+    <div class="status-bar" id="statusBusca">Preencha os campos e clique em buscar.</div>
+  </div>
+
+  <div class="card">
+    <h2>💬 Mensagem de Prospecção</h2>
+    <label>Texto da mensagem (use {nome} para personalizar)</label>
+    <textarea id="mensagem">Olá! Tudo bem? 😊
+
+Me chamo Isamara, da *Beleza Nativa* — somos uma loja de fábrica especializada em lingeries e moda praia.
+
+Estou entrando em contato porque vi que vocês trabalham com moda feminina e gostaria de propor uma *parceria de revenda*! 🌸
+
+Nossos diferenciais:
+✅ Preço de fábrica — maior margem pra você
+✅ Lingeries e moda praia de qualidade
+✅ Parceria flexível, sem mínimo alto
+
+Posso enviar nosso catálogo e tabela de preços para você conhecer melhor?
+
+Aguardo seu retorno! 🌺</textarea>
+    <label>Pré-visualização</label>
+    <div class="preview-msg" id="preview"></div>
+  </div>
+
+  <div class="card" id="secao-envio">
+    <h2>📋 Lojas Encontradas</h2>
+    <div class="stats">
+      <div class="stat"><div class="num" id="totalLeads">0</div><div class="label">Encontradas</div></div>
+      <div class="stat"><div class="num" id="comTel">0</div><div class="label">Com Telefone</div></div>
+      <div class="stat"><div class="num" id="enviados">0</div><div class="label">Enviadas</div></div>
+    </div>
+    <button class="btn btn-enviar" id="btnEnviar" onclick="enviarMensagens()">📲 Enviar para Todas com Telefone</button>
+    <div class="status-bar" id="statusEnvio" style="display:none"></div>
+    <div class="divider"></div>
+    <div id="listaLeads"></div>
+  </div>
+</div>
+
+<script>
+let leads = [];
+let enviados = 0;
+
+document.getElementById('mensagem').addEventListener('input', atualizarPreview);
+function atualizarPreview() {
+  document.getElementById('preview').textContent = document.getElementById('mensagem').value.replace('{nome}', 'Loja Exemplo');
+}
+atualizarPreview();
+
+async function buscarLeads() {
+  const key = document.getElementById('googleKey').value.trim();
+  const cidade = document.getElementById('cidade').value.trim();
+  const qtd = parseInt(document.getElementById('quantidade').value);
+
+  if (!key || !cidade) { setStatus('statusBusca', 'erro', '❌ Preencha a chave do Google e a cidade.'); return; }
+
+  leads = []; enviados = 0;
+  document.getElementById('listaLeads').innerHTML = '';
+  document.getElementById('secao-envio').style.display = 'none';
+  setStatus('statusBusca', 'ativo', null, 'Buscando lojas de moda feminina em ' + cidade + '...');
+
+  const termos = ['loja de roupas femininas', 'moda feminina', 'boutique feminina'];
+  let todos = [];
+
+  for (const termo of termos) {
+    if (todos.length >= qtd) break;
+    try {
+      const query = encodeURIComponent(termo + ' ' + cidade);
+      const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${key}&language=pt-BR`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+      
+      const res = await fetch(proxyUrl);
+      const data = await res.json();
+      
+      if (data.error_message) {
+        setStatus('statusBusca', 'erro', '❌ Erro Google: ' + data.error_message);
+        return;
+      }
+      if (data.results) todos = todos.concat(data.results);
+    } catch(e) { continue; }
+  }
+
+  // Remove duplicatas
+  const vistos = new Set();
+  todos = todos.filter(p => { if (vistos.has(p.place_id)) return false; vistos.add(p.place_id); return true; }).slice(0, qtd);
+
+  if (todos.length === 0) {
+    setStatus('statusBusca', 'erro', '❌ Nenhuma loja encontrada. Verifique a chave da API.');
+    return;
+  }
+
+  setStatus('statusBusca', 'ativo', null, `Encontrei ${todos.length} lojas. Buscando telefones...`);
+
+  for (const place of todos) {
+    const det = { name: place.name, formatted_address: place.formatted_address || '', formatted_phone_number: '' };
+    try {
+      const detUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&fields=formatted_phone_number&key=${key}&language=pt-BR`;
+      const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(detUrl)}`);
+      const d = await res.json();
+      if (d.result) det.formatted_phone_number = d.result.formatted_phone_number || '';
+    } catch(e) {}
+    leads.push(det);
+  }
+
+  renderLeads();
+  setStatus('statusBusca', 'sucesso', `✅ ${leads.length} lojas encontradas com sucesso!`);
+  document.getElementById('secao-envio').style.display = 'block';
+  atualizarStats();
+  window.scrollTo({ top: document.getElementById('secao-envio').offsetTop - 20, behavior: 'smooth' });
+}
+
+function renderLeads() {
+  const lista = document.getElementById('listaLeads');
+  lista.innerHTML = '';
+  leads.forEach((l, i) => {
+    const tel = l.formatted_phone_number || '';
+    const badge = tel ? `<span class="badge badge-ok">✓ Com telefone</span>` : `<span class="badge badge-sem">Sem telefone</span>`;
+    const statusBadge = l.statusEnvio === 'enviado' ? `<span class="badge badge-enviado">✓ Enviado</span>` : l.statusEnvio === 'erro' ? `<span class="badge badge-erro">✗ Erro</span>` : '';
+    lista.innerHTML += `<div class="lead-item" id="lead-${i}"><div class="lead-info"><h3>${l.name} ${badge} ${statusBadge}</h3><p>📍 ${l.formatted_address || 'Endereço não disponível'}</p></div><div class="lead-tel">${tel || '—'}</div></div>`;
+  });
+}
+
+function atualizarStats() {
+  document.getElementById('totalLeads').textContent = leads.length;
+  document.getElementById('comTel').textContent = leads.filter(l => l.formatted_phone_number).length;
+  document.getElementById('enviados').textContent = enviados;
+}
+
+async function enviarMensagens() {
+  const token = document.getElementById('wasenderToken').value.trim();
+  const msgTemplate = document.getElementById('mensagem').value;
+  const comTel = leads.filter(l => l.formatted_phone_number && l.statusEnvio !== 'enviado');
+  if (!token || comTel.length === 0) { setStatus('statusEnvio', 'erro', '❌ Nenhum lead com telefone disponível.'); document.getElementById('statusEnvio').style.display = 'flex'; return; }
+
+  document.getElementById('btnEnviar').disabled = true;
+  document.getElementById('statusEnvio').style.display = 'flex';
+  setStatus('statusEnvio', 'ativo', null, `Enviando para ${comTel.length} lojas...`);
+
+  for (const lead of comTel) {
+    const tel = lead.formatted_phone_number.replace(/\D/g, '');
+    const telFormatado = tel.startsWith('55') ? tel : '55' + tel;
+    try {
+      const res = await fetch('https://app.wasender.com.br/api/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ phone: telFormatado, message: msgTemplate.replace('{nome}', lead.name) })
+      });
+      lead.statusEnvio = res.ok ? 'enviado' : 'erro';
+      if (res.ok) enviados++;
+    } catch(e) { lead.statusEnvio = 'erro'; }
+    renderLeads(); atualizarStats();
+    await new Promise(r => setTimeout(r, 1500));
+  }
+
+  setStatus('statusEnvio', 'sucesso', `✅ Envio concluído! ${enviados} mensagens enviadas.`);
+  document.getElementById('btnEnviar').disabled = false;
+}
+
+function setStatus(id, tipo, texto, spinnerTexto) {
+  const el = document.getElementById(id);
+  el.className = 'status-bar ' + tipo;
+  el.innerHTML = spinnerTexto ? `<div class="spinner"></div><span>${spinnerTexto}</span>` : (texto || '');
+}
+</script>
+</body>
+</html>

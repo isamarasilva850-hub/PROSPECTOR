@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carrosséis Automáticos — Nuvem</title>
+<style>
+  :root{
+    --verde:#0f9d6e; --verde-esc:#0a7a55; --rosa:#e56b8c;
+    --tinta:#182420; --cinza:#6b7b74;
+    --papel:#f6f4ef; --card:#fff; --linha:#e7e4dc;
+    --ok:#0f9d6e; --erro:#d84a4a; --aviso:#e0932f;
+    --sombra:0 6px 24px rgba(20,40,30,.08); --raio:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--papel);color:var(--tinta);line-height:1.5}
+  header{position:sticky;top:0;z-index:20;background:rgba(246,244,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+  .topo{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .marca{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
+  .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--verde),var(--rosa));display:grid;place-items:center;color:#fff;font-size:18px}
+  .nuvem{font-size:12px;font-weight:700;color:var(--verde-esc);background:#e3f6ec;padding:4px 10px;border-radius:999px}
+  .espaco{flex:1}
+  .senha{display:flex;align-items:center;gap:6px}
+  .senha input{padding:8px 11px;border:1.5px solid var(--linha);border-radius:10px;font-size:13.5px;width:130px}
+  main{max-width:1180px;margin:0 auto;padding:26px 22px 80px}
+  .h2{font-size:22px;font-weight:800;margin:8px 0 4px}
+  .sub{color:var(--cinza);margin:0 0 20px;font-size:14.5px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+  .card{background:var(--card);border:1px solid var(--linha);border-radius:var(--raio);overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,40,30,.13)}
+  .capa{position:relative;aspect-ratio:4/5;background:#eee;overflow:hidden;cursor:pointer}
+  .capa img{width:100%;height:100%;object-fit:cover;display:block}
+  .badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.62);color:#fff;font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px}
+  .corpo{padding:14px 15px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .titulo{font-weight:700;font-size:15.5px;line-height:1.3}
+  .acoes{display:flex;gap:8px;margin-top:auto}
+  .btn{border:0;border-radius:11px;padding:10px 12px;font-size:13.5px;font-weight:700;cursor:pointer;flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:filter .15s,background .15s}
+  .btn:hover{filter:brightness(.96)}
+  .btn.pub{background:var(--verde);color:#fff}
+  .btn.age{background:#fff;color:var(--verde-esc);border:1.5px solid var(--verde)}
+  .btn.ghost{background:#eef1ef;color:var(--tinta)}
+  .btn.small{padding:7px 10px;font-size:12.5px;flex:none}
+  .btn.danger{background:#fbeaea;color:var(--erro)}
+  .agend{margin-top:46px}
+  .lista{display:flex;flex-direction:column;gap:10px}
+  .item{background:#fff;border:1px solid var(--linha);border-radius:13px;padding:13px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .item .quando{font-weight:700}
+  .tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .tag.pendente{background:#fff4e2;color:#a9701a}
+  .tag.publicando{background:#e4f0ff;color:#2166b8}
+  .tag.publicado{background:#e3f6ec;color:#0a7a55}
+  .tag.erro{background:#fbeaea;color:#c23b3b}
+  .vazio{color:var(--cinza);background:#fff;border:1px dashed var(--linha);border-radius:13px;padding:26px;text-align:center}
+  .overlay{position:fixed;inset:0;background:rgba(15,25,20,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .overlay.show{display:flex}
+  .modal{background:#fff;border-radius:20px;max-width:900px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .modal-top{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--linha);position:sticky;top:0;background:#fff;z-index:2}
+  .modal-top h3{margin:0;font-size:18px;flex:1}
+  .x{border:0;background:#eef1ef;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:17px}
+  .modal-corpo{padding:20px 22px}
+  .slides{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+  .slides img{height:360px;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:1px solid var(--linha);scroll-snap-align:start;flex:none}
+  .leg{white-space:pre-wrap;background:var(--papel);border:1px solid var(--linha);border-radius:12px;padding:15px;margin-top:16px;font-size:14px;max-height:230px;overflow:auto}
+  .campo{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+  .campo label{font-size:13px;font-weight:700;color:var(--cinza)}
+  select,input[type=datetime-local]{padding:11px 12px;border:1.5px solid var(--linha);border-radius:11px;font-size:14.5px;font-family:inherit;background:#fff}
+  .rodape-modal{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+  .aviso-box{background:#fff8ec;border:1px solid #f2dfb8;color:#8a6417;border-radius:11px;padding:11px 13px;font-size:13px;margin-top:14px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#182420;color:#fff;padding:13px 20px;border-radius:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:90vw}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.ok{background:#0a7a55}.toast.err{background:#c23b3b}
+  .spin{width:15px;height:15px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;animation:g .7s linear infinite;vertical-align:-2px}
+  @keyframes g{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="topo">
+    <div class="marca"><div class="logo">💚</div> Carrosséis Automáticos</div>
+    <span class="nuvem">☁️ na nuvem</span>
+    <div class="espaco"></div>
+    <div class="senha" id="senhaBox" style="display:none">
+      🔒 <input type="password" id="inSenha" placeholder="senha" />
+    </div>
+    <button class="btn ghost small" onclick="carregar()">↻ Atualizar</button>
+  </div>
+</header>
+
+<main>
+  <h1 class="h2">Sua biblioteca</h1>
+  <p class="sub">Publique agora ou agende. No horário marcado, o site posta sozinho — mesmo com seu computador desligado.</p>
+  <div id="grid" class="grid"></div>
+
+  <section id="secStories" style="margin-top:44px;display:none">
+    <h2 class="h2">📲 Stories</h2>
+    <p class="sub">Sequências de Stories — publique ou agende igual aos carrosséis.</p>
+    <div id="gridStories" class="grid"></div>
+  </section>
+
+  <section class="agend">
+    <h2 class="h2">⏰ Agendados</h2>
+    <p class="sub">Cada carrossel é publicado automaticamente no horário marcado.</p>
+    <div id="listaAgend" class="lista"></div>
+  </section>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-top">
+      <h3 id="mTitulo">—</h3>
+      <button class="x" onclick="fecharModal()">✕</button>
+    </div>
+    <div class="modal-corpo">
+      <div class="slides" id="mSlides"></div>
+      <div class="leg" id="mLeg"></div>
+      <div class="campo">
+        <label>Conta do Instagram</label>
+        <select id="mConta"></select>
+      </div>
+      <div class="campo">
+        <label>Agendar para (data e hora)</label>
+        <input type="datetime-local" id="mQuando" />
+      </div>
+      <div class="aviso-box">⚠️ Ao publicar, o carrossel vai <b>direto para o seu Instagram</b> — confira a conta acima antes.</div>
+      <div class="rodape-modal">
+        <button class="btn pub" id="mBtnPub" onclick="publicar()">📲 Publicar agora</button>
+        <button class="btn age" onclick="agendar()">⏰ Agendar</button>
+        <button class="btn ghost" onclick="fecharModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let CARROSSEIS=[], STORIES=[], CONTAS=[], atual=null, atualTipo='carrossel', PROTEGIDO=false;
+
+function toast(m,t){const e=document.getElementById('toast');e.className='toast show '+(t||'');e.innerHTML=m;clearTimeout(e._t);e._t=setTimeout(()=>e.className='toast',4600);}
+function senha(){return document.getElementById('inSenha')?.value || localStorage.getItem('senha') || '';}
+function headers(){const h={'Content-Type':'application/json'};const s=senha();if(s)h['x-senha']=s;return h;}
+
+async function carregar(){
+  try{
+    const s = await (await fetch('/api/state')).json();
+    CARROSSEIS = s.carrosseis||[]; STORIES = s.stories||[]; CONTAS = s.contas||[]; PROTEGIDO = s.protegido;
+    document.getElementById('senhaBox').style.display = PROTEGIDO ? 'flex' : 'none';
+    if(PROTEGIDO){ const salva=localStorage.getItem('senha'); if(salva) document.getElementById('inSenha').value=salva; }
+    renderGrid(); renderStories(); renderAgend(s.agendamentos||[]);
+  }catch(e){ toast('❌ Erro ao carregar','err'); }
+}
+
+function renderGrid(){
+  const g=document.getElementById('grid');
+  if(!CARROSSEIS.length){g.innerHTML='<div class="vazio">Nenhum carrossel no catálogo.</div>';return;}
+  g.innerHTML=CARROSSEIS.map(c=>`
+    <div class="card">
+      <div class="capa" onclick="abrir('${c.id}')">
+        <span class="badge">${c.totalSlides} slides</span>
+        <img loading="lazy" src="${c.slides[0]||''}" alt="">
+      </div>
+      <div class="corpo">
+        <div class="titulo">${esc(c.titulo)}</div>
+        <div class="acoes">
+          <button class="btn pub" onclick="abrir('${c.id}')">📲 Publicar</button>
+          <button class="btn age" onclick="abrir('${c.id}')">⏰ Agendar</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderStories(){
+  const sec=document.getElementById('secStories'); const g=document.getElementById('gridStories');
+  if(!STORIES.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  g.innerHTML=STORIES.map(s=>`
+    <div class="card">
+      <div class="capa" style="aspect-ratio:9/16" onclick="abrir('${s.id}','story')">
+        <span class="badge">${s.frames.length} frames · Story</span>
+        <img loading="lazy" src="${s.frames[0]||''}" alt="">
+      </div>
+      <div class="corpo">
+        <div class="titulo">${esc(s.titulo)}</div>
+        <div class="acoes">
+          <button class="btn pub" onclick="abrir('${s.id}','story')">📲 Publicar</button>
+          <button class="btn age" onclick="abrir('${s.id}','story')">⏰ Agendar</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAgend(lista){
+  const el=document.getElementById('listaAgend');
+  if(!lista.length){el.innerHTML='<div class="vazio">Nenhum agendamento ainda.</div>';return;}
+  el.innerHTML=lista.map(a=>`
+    <div class="item">
+      <span class="tag ${a.status}">${rot(a.status)}</span>
+      <div style="flex:1;min-width:180px">
+        <div class="quando">${fmt(a.quando)}</div>
+        <div style="color:var(--cinza);font-size:13.5px">${esc(a.titulo)} · ${esc(a.contaNome)}</div>
+        ${a.erro?`<div style="color:var(--erro);font-size:12.5px;margin-top:3px">${esc(a.erro)}</div>`:''}
+      </div>
+      ${a.status==='pendente'?`<button class="btn danger small" onclick="cancelar('${a.id}')">Cancelar</button>`:''}
+    </div>`).join('');
+}
+
+function abrir(id, tipo='carrossel'){
+  atualTipo=tipo;
+  atual=(tipo==='story'?STORIES:CARROSSEIS).find(c=>c.id===id); if(!atual)return;
+  const imgs = tipo==='story' ? atual.frames : atual.slides;
+  document.getElementById('mTitulo').textContent=atual.titulo;
+  document.getElementById('mSlides').innerHTML=imgs.map(s=>`<img src="${s}" alt="">`).join('');
+  document.getElementById('mLeg').textContent = tipo==='story'
+    ? ('Sequência de '+imgs.length+' Stories — publicados em ordem, um após o outro.')
+    : (atual.legenda||'(sem legenda)');
+  document.getElementById('mConta').innerHTML=CONTAS.map(c=>`<option value="${c.key}">${c.nome}</option>`).join('');
+  document.getElementById('mQuando').value='';
+  document.getElementById('overlay').classList.add('show');
+}
+function fecharModal(){document.getElementById('overlay').classList.remove('show');}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')fecharModal();});
+
+function guardaSenha(){ if(PROTEGIDO){ const s=document.getElementById('inSenha').value; if(s) localStorage.setItem('senha',s); } }
+
+async function publicar(){
+  guardaSenha();
+  const conta=document.getElementById('mConta').value;
+  const nome=CONTAS.find(c=>c.key===conta)?.nome||conta;
+  if(!confirm(`Publicar "${atual.titulo}" AGORA em ${nome}?\n\nIsso vai postar de verdade no seu Instagram.`))return;
+  const btn=document.getElementById('mBtnPub');btn.disabled=true;const old=btn.innerHTML;btn.innerHTML='<span class="spin"></span> Publicando…';
+  try{
+    const r=await(await fetch('/api/publicar',{method:'POST',headers:headers(),body:JSON.stringify({carrosselId:atual.id,conta,tipo:atualTipo})})).json();
+    if(r.ok){toast('✅ Publicado em '+r.conta+'!','ok');fecharModal();}
+    else toast('❌ '+r.erro,'err');
+  }catch(e){toast('❌ Erro de conexão','err');}
+  finally{btn.disabled=false;btn.innerHTML=old;}
+}
+
+async function agendar(){
+  guardaSenha();
+  const conta=document.getElementById('mConta').value;
+  const raw=document.getElementById('mQuando').value;
+  if(!raw){toast('Escolha a data e a hora primeiro.','err');return;}
+  const quando=new Date(raw).toISOString(); // converte do seu horario local para instante absoluto (fuso-seguro)
+  const r=await(await fetch('/api/agendar',{method:'POST',headers:headers(),body:JSON.stringify({carrosselId:atual.id,conta,quando,tipo:atualTipo})})).json();
+  if(r.ok){toast('⏰ Agendado!','ok');fecharModal();carregar();}
+  else toast('❌ '+r.erro,'err');
+}
+
+async function cancelar(id){
+  guardaSenha();
+  if(!confirm('Cancelar este agendamento?'))return;
+  await fetch('/api/cancelar',{method:'POST',headers:headers(),body:JSON.stringify({id})});
+  carregar();
+}
+
+function esc(s){return(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+function fmt(iso){const d=new Date(iso);return d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function rot(s){return{pendente:'Pendente',publicando:'Publicando…',publicado:'Publicado ✓',erro:'Erro'}[s]||s;}
+
+carregar();
+// atualizacao automatica removida (evita sobrecarga); use o botao ↻ Atualizar
+</script>
+</body>
+</html>

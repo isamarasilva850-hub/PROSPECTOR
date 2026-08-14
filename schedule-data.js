@@ -25,8 +25,10 @@ export default [
   { quando: "2026-08-24T20:00:00-03:00", conta: "beleza",      tipo: "carrossel", carrosselId: "25-nasceu-pra-revender" },
   { quando: "2026-08-25T20:00:00-03:00", conta: "beleza",      tipo: "carrossel", carrosselId: "23-lojista-estoque-parado" },
 
-  // ---- MEIO-DIA (12h) = Ebook Sobrancelha (@isamaracsilva) ----
-  { quando: "2026-08-08T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-3-sobrancelha-rala" },
-  { quando: "2026-08-09T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-4-sobrancelha-40" },
-  { quando: "2026-08-10T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-5-a-oferta" },
+  // ---- MEIO-DIA (12h) = Ebook Sobrancelha V2 (@isamaracsilva) ----
+  { quando: "2026-08-15T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-sobrancelha-v2-2025" },
+  { quando: "2026-08-16T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-sobrancelha-v2-2025" },
+  { quando: "2026-08-17T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-sobrancelha-v2-2025" },
+  { quando: "2026-08-18T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-sobrancelha-v2-2025" },
+  { quando: "2026-08-19T12:00:00-03:00", conta: "sobrancelha", tipo: "carrossel", carrosselId: "ebook-sobrancelha-v2-2025" },
 ];

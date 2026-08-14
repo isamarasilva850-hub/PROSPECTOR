@@ -461,5 +461,18 @@ export default [
       "https://vercel-app-three-brown.vercel.app/carrosseis/carrossel-19.png",
       "https://vercel-app-three-brown.vercel.app/carrosseis/carrossel-20.png"
     ]
+  },
+  {
+    "id": "27-ebook-sobrancelha-v2-2025",
+    "titulo": "Ebook Sobrancelha - V2 Melhorado",
+    "legenda": "📚 SOBRANCELHA PERFEITA EM CASA\r\n\r\nAprenda com quem já ensinou 5.000+ mulheres a fazer sobrancelha em casa SEM ERRAR.\r\n\r\n✨ De R$128 por apenas R$37 (-70%)\r\n⏰ Promoção por apenas 24 horas\r\n\r\n📖 6 aulas em vídeo HD\r\n✓ Acesso vitalício\r\n✓ Suporte direto comigo por 7 dias\r\n✓ Passo a passo completo\r\n\r\nAprenda:\r\n→ Os 6 erros que destroem sua sobrancelha\r\n→ Técnica para qualquer formato de rosto\r\n→ Como engrossar sobrancelha rala\r\n→ Sobrancelha que rejuvenesce depois dos 40\r\n→ Resultado que dura até 1 mês\r\n\r\n👉 COMPRE AGORA pelo link na bio\r\n\r\nAcesso imediato e seguro. Aprenda hoje mesmo!\r\n\r\n#sobrancelha #tutorialsbeleza #beleza #ebook #diybeauty #sobrancelhaperfeit",
+    "totalSlides": 5,
+    "slides": [
+      "https://vercel-app-three-brown.vercel.app/carrosseis/ebook-01.png",
+      "https://vercel-app-three-brown.vercel.app/carrosseis/ebook-02.png",
+      "https://vercel-app-three-brown.vercel.app/carrosseis/ebook-03.png",
+      "https://vercel-app-three-brown.vercel.app/carrosseis/ebook-04.png",
+      "https://vercel-app-three-brown.vercel.app/carrosseis/ebook-05.png"
+    ]
   }
 ];

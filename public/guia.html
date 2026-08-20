@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobrancelha Perfeita em Casa — Guia Gratuito</title>
+<meta name="description" content="Guia gratuito de sobrancelha por Isamara Silva — 20 anos de experiência direto no seu WhatsApp.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDFAF6;
+    --surface: #F5EDE3;
+    --text: #2C2420;
+    --text-soft: #6B5B50;
+    --accent: #B8860B;
+    --accent-glow: rgba(184,134,11,0.15);
+    --whatsapp: #25D366;
+    --whatsapp-hover: #1DA851;
+    --border: #E5DCD2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1714;
+      --surface: #26211B;
+      --text: #E8DDD2;
+      --text-soft: #A89888;
+      --accent: #D4A520;
+      --accent-glow: rgba(212,165,32,0.12);
+      --border: #3D352B;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem 1.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent-glow);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+  h1 em {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .sub {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    margin-bottom: 2rem;
+    max-width: 360px;
+  }
+  .card {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 1.5rem;
+    width: 100%;
+    margin-bottom: 1.75rem;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.45;
+  }
+  .checklist li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6 10l3 3 5-6' stroke='%23B8860B' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: contain;
+  }
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .price-old {
+    font-size: 1rem;
+    color: var(--text-soft);
+    text-decoration: line-through;
+  }
+  .price-new {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--accent);
+  }
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 1rem;
+    background: var(--whatsapp);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+  }
+  .cta:hover { background: var(--whatsapp-hover); }
+  .cta:active { transform: scale(0.98); }
+  .cta svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+  .seguro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-soft);
+  }
+  .seguro svg { width: 14px; height: 14px; fill: var(--text-soft); flex-shrink: 0; }
+  .autora {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    width: 100%;
+  }
+  .autora-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .autora-info {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+  .autora-info strong {
+    color: var(--text);
+    font-weight: 600;
+    display: block;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="badge">Guia gratuito</div>
+  <h1>Sobrancelha <em>Perfeita</em> em Casa</h1>
+  <p class="sub">O guia de quem fez sobrancelha por 20 anos no sal&atilde;o, agora de gra&ccedil;a no seu WhatsApp.</p>
+
+  <div class="card">
+    <div class="card-title">O que voc&ecirc; vai aprender:</div>
+    <ul class="checklist">
+      <li>Os 6 erros que destroem sua sobrancelha (e como evitar todos)</li>
+      <li>Como analisar seu rosto antes de encostar a pin&ccedil;a</li>
+      <li>O kit certo pra fazer em casa sem gastar muito</li>
+      <li>Passo a passo do design completo</li>
+      <li>Preenchimento natural fio a fio</li>
+      <li>Como recuperar sobrancelhas ralas ou danificadas</li>
+    </ul>
+  </div>
+
+  <div class="price-row">
+    <span class="price-old">R$37</span>
+    <span class="price-new">Gr&aacute;tis</span>
+  </div>
+
+  <a class="cta" href="https://wa.me/5535991755895?text=Oi%20Isa!%20Quero%20o%20guia%20gr%C3%A1tis%20da%20Sobrancelha%20Perfeita%20em%20Casa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.01a9.85 9.85 0 01-5.022-1.378l-.36-.214-3.742.982.999-3.648-.235-.374A9.86 9.86 0 012.15 12.01c0-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm0-21.67C5.435.116.105 5.441.1 12.057a11.834 11.834 0 001.583 5.93L0 24l6.166-1.617A11.95 11.95 0 0012.05 23.9c6.615 0 12-5.384 12.003-12.003a11.92 11.92 0 00-3.516-8.48A11.922 11.922 0 0012.05.116z"/></svg>
+    Quero o guia gr&aacute;tis
+  </a>
+
+  <div class="seguro">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+    Sem spam. Voc&ecirc; recebe o PDF e pronto.
+  </div>
+
+  <div class="autora">
+    <div class="autora-avatar">&#9986;&#65039;</div>
+    <div class="autora-info">
+      <strong>Isamara Silva</strong>
+      Designer de sobrancelhas e micropigmentadora &middot; 20+ anos de experi&ecirc;ncia
+    </div>
+  </div>
+</div>
+</body>
+</html>
